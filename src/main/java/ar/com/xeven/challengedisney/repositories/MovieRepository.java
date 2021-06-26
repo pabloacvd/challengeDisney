@@ -1,0 +1,10 @@
+package ar.com.xeven.challengedisney.repositories;
+
+import ar.com.xeven.challengedisney.entities.Movie;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MovieRepository extends JpaRepository<Movie, Integer> {
+
+}

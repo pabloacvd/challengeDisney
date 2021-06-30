@@ -1,5 +1,8 @@
 package ar.com.xeven.challengedisney.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,6 +16,8 @@ public class Character {
     private Integer age;
     private Integer weight;
     private String story;
+    @JsonManagedReference
+    //@JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "characters_x_movies",
         joinColumns = @JoinColumn(name="character_id"),
@@ -94,5 +99,17 @@ public class Character {
 
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
+    }
+
+    @Override
+    public String toString() {
+        return "Character{" +
+                "character_id=" + character_id +
+                ", name='" + name + '\'' +
+                ", image_url='" + image_url + '\'' +
+                ", age=" + age +
+                ", weight=" + weight +
+                ", story='" + story + '\'' +
+                '}';
     }
 }

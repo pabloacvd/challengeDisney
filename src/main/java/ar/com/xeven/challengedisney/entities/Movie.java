@@ -1,5 +1,7 @@
 package ar.com.xeven.challengedisney.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,6 +14,7 @@ public class Movie {
     private String image_url;
     private Integer year;
     private Integer score;
+    @JsonBackReference
     @ManyToMany(mappedBy = "movies", fetch = FetchType.LAZY)
     private List<Character> characters;
     @ManyToMany(mappedBy = "movies", fetch = FetchType.LAZY)

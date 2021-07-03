@@ -29,8 +29,19 @@ public class CharacterService {
         return lista;
     }
 
-    public void save(Character personaje) {
-        characterRepository.save(personaje);
+    public Character save(Character character) {
+        if(character.getCharacter_id()!=null) {
+            Character personajeExistente = characterRepository.findById(character.getCharacter_id()).orElse(null);
+            if (personajeExistente != null) {
+                if (character.getName() != null) personajeExistente.setName(character.getName());
+                if (character.getAge() != null) personajeExistente.setAge(character.getAge());
+                if (character.getImage_url() != null) personajeExistente.setImage_url(character.getImage_url());
+                if (character.getStory() != null) personajeExistente.setStory(character.getStory());
+                if (character.getWeight() != null) personajeExistente.setWeight(character.getWeight());
+                return characterRepository.save(personajeExistente);
+            }else character.setCharacter_id(null);
+        }
+        return (character.estoyBienFormado())?characterRepository.save(character):null;
     }
 
     public void delete(Integer id) {
@@ -43,11 +54,6 @@ public class CharacterService {
 
     public Character getCharacterById(Integer id) {
         Character personaje = characterRepository.findById(id).orElse(null);
-/*
-        if(personaje!=null)
-            personaje.setMovies(movieRepository.findMoviesByCharactersEquals(personaje)); // TODO agregar pelis
-
- */
         return personaje;
     }
 }

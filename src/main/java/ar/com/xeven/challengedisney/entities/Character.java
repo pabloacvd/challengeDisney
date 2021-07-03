@@ -11,13 +11,12 @@ import java.util.List;
 public class Character {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer character_id;
+    @Column(nullable = false)
     private String name;
     private String image_url;
     private Integer age;
     private Integer weight;
     private String story;
-    @JsonManagedReference
-    //@JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "characters_x_movies",
         joinColumns = @JoinColumn(name="character_id"),
@@ -25,6 +24,10 @@ public class Character {
     private List<Movie> movies;
 
     public Character() {
+    }
+
+    public boolean estoyBienFormado(){
+        return (name!=null && age!=null && image_url!=null && story!=null && weight!=null);
     }
 
     public Character(String name, String image_url, Integer age, Integer weight, String story) {

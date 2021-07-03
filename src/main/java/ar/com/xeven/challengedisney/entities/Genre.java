@@ -1,5 +1,8 @@
 package ar.com.xeven.challengedisney.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,6 +13,7 @@ public class Genre {
     private Integer genre_id;
     private String image_url;
     private String name;
+    @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "genres_x_movies",
         joinColumns = @JoinColumn(name = "genre_id"),

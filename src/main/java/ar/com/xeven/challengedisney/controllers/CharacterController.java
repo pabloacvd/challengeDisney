@@ -35,7 +35,7 @@ public class CharacterController {
         return characterService.getCharacterById(id);
     }
 
-    @PostMapping(path="/save",consumes = "application/json")
+    @PostMapping(path="/save", consumes = "application/json")
     private void save(@RequestBody Character personaje){
         characterService.save(personaje);
         //TODO sólo actualizar los campos NO NULL

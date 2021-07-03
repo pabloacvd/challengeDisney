@@ -12,4 +12,16 @@ public interface CharacterRepository extends JpaRepository<Character, Integer> {
 
     List<Character> findCharactersByNameContaining(String name);
 
+    List<Character> findCharactersByNameContainingAndAgeEqualsAndMoviesContaining(String name, Integer age, Movie movie);
+
+
+    List<Character> findCharactersByNameContainingAndAgeEquals(String name, Integer age);
+
+    List<Character> findCharactersByAgeEquals(Integer age);
+
+    List<Character> findCharactersByNameContainingAndMoviesContaining(String name, Movie movie);
+
+    List<Character> findCharactersByAgeEqualsAndMoviesContaining(Integer age, Movie movie);
+
+    List<Character> findCharactersByMoviesContaining(Movie movie);
 }

@@ -1,14 +1,18 @@
 package ar.com.xeven.challengedisney.services;
 
+import ar.com.xeven.challengedisney.entities.Movie;
 import ar.com.xeven.challengedisney.repositories.CharacterRepository;
 import ar.com.xeven.challengedisney.entities.Character;
 import ar.com.xeven.challengedisney.repositories.MovieRepository;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class CharacterService {
@@ -55,5 +59,31 @@ public class CharacterService {
     public Character getCharacterById(Integer id) {
         Character personaje = characterRepository.findById(id).orElse(null);
         return personaje;
+    }
+
+    public List<Character> findCharacters(Optional<String> name, Optional<Integer> age, Optional<Integer> movies) {
+        try{
+            if(movies.isPresent()) {
+                Movie movie = movieRepository.findById(movies.get()).orElseThrow(Exception::new);
+                if(name.isPresent() && age.isPresent())
+                    return characterRepository.findCharactersByNameContainingAndAgeEqualsAndMoviesContaining(name.get(), age.get(), movie);
+                else if(name.isPresent())
+                    return characterRepository.findCharactersByNameContainingAndMoviesContaining(name.get(), movie);
+                else if(age.isPresent())
+                    return characterRepository.findCharactersByAgeEqualsAndMoviesContaining(age.get(), movie);
+                else
+                    return characterRepository.findCharactersByMoviesContaining(movie);
+            }else {
+                if(name.isPresent() && age.isPresent())
+                    return characterRepository.findCharactersByNameContainingAndAgeEquals(name.get(), age.get());
+                else if(name.isPresent())
+                    return characterRepository.findCharactersByNameContaining(name.get());
+                else if(age.isPresent())
+                    return characterRepository.findCharactersByAgeEquals(age.get());
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
     }
 }
